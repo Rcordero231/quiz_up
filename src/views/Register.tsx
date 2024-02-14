@@ -3,11 +3,15 @@ import { useNavigate} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import { UserFormDataType } from '../types';
+import { UserFormDataType, CategoryType } from '../types';
+import { createNewUser} from '../lib/apiWrapper';
 
-type SignUpProps = {}
+type RegisterProps = {
+    flashMessage: (newMessage:string|null, newCategory:CategoryType|null) => void,
+    registerUser: (user: UserFormDataType) => void
+}
 
-export default function Register({}: SignUpProps) {
+export default function Register({flashMessage}: RegisterProps) {
 
     const navigate = useNavigate();
 
@@ -26,7 +30,15 @@ export default function Register({}: SignUpProps) {
 
     const handleFormSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
-        navigate('/');
+
+        let response = await createNewUser(userFormData);
+        console.log(response)
+        if (response.error){
+            flashMessage(response.error, 'danger')
+        } else {
+            flashMessage(`Congrats ${userFormData?.firstName} ${userFormData?.lastName}, you can now log in!`, 'success');
+            navigate('/login');
+        }
     }
 
     const disableSubmit =  userFormData.password.length < 5 || userFormData.password !== userFormData.confirmPass

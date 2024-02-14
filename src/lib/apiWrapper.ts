@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {QuestionType, QuestionFormDataType, UserType} from "../types"
+import {QuestionType, QuestionFormDataType, UserType, UserFormDataType} from "../types"
 
 
 
@@ -10,7 +10,7 @@ type APIResponse<T> = {
 
 
 const baseURL: string = 'https://cae-bookstore.herokuapp.com';
-const userEndpoint: string = '/users';
+const userEndpoint: string = '/user';
 const tokenEndpoint: string = '/login';
 const questionEndpoint: string = '/question';
 
@@ -57,7 +57,7 @@ async function getAllQuestions(): Promise<APIResponse<QuestionType[]>> {
     return {data, error}
 }
 
-async function createNewUser(newUserData:UserType): Promise<APIResponse<UserType>> {
+async function createNewUser(newUserData:UserFormDataType): Promise<APIResponse<UserFormDataType>> {
     let data;
     let error;
     try{

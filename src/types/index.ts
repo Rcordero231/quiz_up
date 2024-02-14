@@ -17,6 +17,7 @@ export type UserType = {
     email:string
 }
 
+export type CategoryType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light'
 
 export type TokenType = {
     token: string,
